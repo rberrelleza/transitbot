@@ -52,8 +52,6 @@ class WebhookHandler(webapp2.RequestHandler):
         room_id = body.get("item")["room"]["id"]
 
         tenant = TenantStore.get_tenant(tenant_id)
-        logging.error("M {}".format(message))
-
         response = "Sorry, I didn't understand your command"
 
         if message.startswith("/muni"):
@@ -95,9 +93,9 @@ class WebhookHandler(webapp2.RequestHandler):
                         response = "{} will arrive to {} in {} minutes".format(
                             route.code, stop.name, ", ".join([str(t) for t in departures.times]))
 
-            tenant.send_notification(room_id, response)
-            self.response.status = 204
-        else:
+        tenant.send_notification(room_id, response)
+        self.response.status = 204
+        
 
 
 class InstallableHandler(webapp2.RequestHandler):
